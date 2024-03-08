@@ -1,47 +1,59 @@
 'use client'
-
-import { BackgroundGradient } from '@/components/ui/background-gradient'
+import Image from "next/image";
+import React from "react";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import courseData from "@/data/music_courses.json"
-import Link from 'next/link'
-
-
-interface Course{
-    id: number,
-    title: string,
-    slug: string,
-    description: string,
-    price: number,
-    instructor: string,
-    isFeatured: boolean,
-}
-
-
 
 function page() {
-    const featuredCourses = courseData.courses
   return (
-    <div className="py-12 mt-24 ">
-      <div>
-        <div className="text-center">
-          <h2 className="text-base text-teal-600 font-semibold tracking-wide uppercase">All COURSES</h2>
-          <p className="mt-2 text-3xl leadeing-8 font-extrabold tracking-tight text-white sm:text-4xl">Learn With the Best</p>
-        </div>
-      </div>
-      <div className="mt-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mx-6 justify-center">
-            {featuredCourses.map((course:Course)=>(
-              <div key={course.id} className="flex justify-center">
-                <BackgroundGradient className="flex flex-col rounded-[22px] bg-wihte dark:bg-zinc-900 overflow-hidden h-full max-w-sm">
-                  <div className="p-4 sm:p-6 flex flex-col items-center text-center flex-grow">
-                      <p className="text-lg font-bold sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">{course.title}</p>
-                      <p className="text-sm text-neutral-600 dark:text-neutral-400 flex-grow">{course.description}</p>
-                      <Link className="border-2 rounded-md px-4 text-white py-2 mt-3" href={`/courses/${course.slug}`}>Learn More</Link>
+    <div className="min-h-screen bg-black py-12 pt-36">
+        <h1 className="text-lg md:text-7xl text-center font-sans font-bold mb-8 text-white">All courses ({courseData.courses.length})</h1>  
+        <div className="flex flex-wrap justify-center">
+            {courseData.courses.map((course) => (
+                <CardContainer className="inter-var m-4">
+                <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+                  <CardItem
+                    translateZ="50"
+                    className="text-xl font-bold text-neutral-600 dark:text-white"
+                  >
+                    {course.title}
+                  </CardItem>
+                  <CardItem
+                    as="p"
+                    translateZ="60"
+                    className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+                  >
+                    {course.description}
+                  </CardItem>
+                  <CardItem translateZ="100" className="w-full mt-4">
+                    <Image
+                      src={course.image}
+                      height="1000"
+                      width="1000"
+                      className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+                      alt={course.title}
+                    />
+                  </CardItem>
+                  <div className="flex justify-between items-center mt-20">
+                    <CardItem
+                      translateZ={20}
+                      as="button"
+                      className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+                    >
+                      Try now →
+                    </CardItem>
+                    <CardItem
+                      translateZ={20}
+                      as="button"
+                      className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
+                    >
+                      Sign up
+                    </CardItem>
                   </div>
-                </BackgroundGradient>
-              </div>
+                </CardBody>
+              </CardContainer>
             ))}
-          </div>
-      </div>
+        </div>  
     </div>
   )
 }
